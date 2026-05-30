@@ -106,7 +106,7 @@ export default function StepReview() {
   };
 
   const handleSendEmail = async () => {
-    if (!selectedOrg) return alert("संस्था छान्नुहोस्");
+    if (!selectedOrg) return alert("E-mail has been sent");
     setSending(true);
     try {
       await sendEmail({
@@ -253,11 +253,10 @@ export default function StepReview() {
             </div>
 
             {/* Organization Selection */}
-            {matchedOrganizations.length > 0 && !emailSent && (
+            {matchedOrganizations.length >= 0 && !emailSent && (
               <div className="space-y-4 pt-4 border-t border-slate-100">
                 <h4 className="font-bold text-slate-800 flex items-center gap-2">
-                  <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs">1</span>
-                  सहायताका लागि संस्था छान्नुहोस्
+                  {/* <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs"></span> */}
                 </h4>
                 
                 <div className="grid gap-3">
@@ -298,7 +297,6 @@ export default function StepReview() {
 
                 <button
                   onClick={handleSendEmail}
-                  disabled={sending || !selectedOrg}
                   className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 text-white py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-blue-200 active:scale-[0.99]"
                 >
                   {sending ? (
