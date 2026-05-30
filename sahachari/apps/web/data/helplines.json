@@ -1,0 +1,24 @@
+{
+  "emergency_helplines": [
+    {
+      "service": "Khabar Garau (GBV)",
+      "number": "1145"
+    },
+    {
+      "service": "Nepal Police",
+      "number": "100"
+    },
+    {
+      "service": "Ambulance",
+      "number": "102"
+    },
+    {
+      "service": "Child Helpline",
+      "number": "1098"
+    },
+    {
+      "service": "SAATHI",
+      "number": "01-4247775"
+    }
+  ]
+}
