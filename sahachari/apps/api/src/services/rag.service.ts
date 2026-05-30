@@ -1,7 +1,92 @@
 import fs from 'fs';
 import path from 'path';
 import { Organization } from '../types/document.types';
+// Add this at the top of rag.service.ts
+const NEPALI_TO_ENGLISH_DISTRICT: Record<string, string> = {
+  'मोरङ': 'morang',
+  'सुनसरी': 'sunsari', 
+  'झापा': 'jhapa',
+  'इलाम': 'ilam',
+  'ताप्लेजुङ': 'taplejung',
+  'पाँचथर': 'panchthar',
+  'तेह्रथुम': 'tehrathum',
+  'धनकुटा': 'dhankuta',
+  'भोजपुर': 'bhojpur',
+  'सोलुखुम्बु': 'solukhumbu',
+  'ओखलढुङ्गा': 'okhaldhunga',
+  'खोटाङ': 'khotang',
+  'उदयपुर': 'udayapur',
+  'सप्तरी': 'saptari',
+  'सिरहा': 'siraha',
+  'धनुषा': 'dhanusa',
+  'महोत्तरी': 'mahottari',
+  'सर्लाही': 'sarlahi',
+  'सिन्धुली': 'sindhuli',
+  'रामेछाप': 'ramechhap',
+  'काभ्रेपलाञ्चोक': 'kavrepalanchok',
+  'ललितपुर': 'lalitpur',
+  'भक्तपुर': 'bhaktapur',
+  'काठमाडौं': 'kathmandu',
+  'नुवाकोट': 'nuwakot',
+  'रसुवा': 'rasuwa',
+  'धादिङ': 'dhading',
+  'मकवानपुर': 'makwanpur',
+  'रौतहट': 'rautahat',
+  'बारा': 'bara',
+  'पर्सा': 'parsa',
+  'चितवन': 'chitwan',
+  'गोरखा': 'gorkha',
+  'लमजुङ': 'lamjung',
+  'तनहुँ': 'tanahun',
+  'स्याङ्जा': 'syangja',
+  'कास्की': 'kaski',
+  'मनाङ': 'manang',
+  'मुस्ताङ': 'mustang',
+  'म्याग्दी': 'myagdi',
+  'पर्वत': 'parbat',
+  'बाग्लुङ': 'baglung',
+  'गुल्मी': 'gulmi',
+  'पाल्पा': 'palpa',
+  'नवलपरासी': 'nawalparasi',
+  'रुपन्देही': 'rupandehi',
+  'कपिलवस्तु': 'kapilvastu',
+  'अर्घाखाँची': 'arghakhanchi',
+  'प्युठान': 'pyuthan',
+  'रोल्पा': 'rolpa',
+  'रुकुम': 'rukum',
+  'सल्यान': 'salyan',
+  'दाङ': 'dang',
+  'बाँके': 'banke',
+  'बर्दिया': 'bardiya',
+  'सुर्खेत': 'surkhet',
+  'दैलेख': 'dailekh',
+  'जाजरकोट': 'jajarkot',
+  'डोल्पा': 'dolpa',
+  'जुम्ला': 'jumla',
+  'कालिकोट': 'kalikot',
+  'मुगु': 'mugu',
+  'हुम्ला': 'humla',
+  'बाजुरा': 'bajura',
+  'बझाङ': 'bajhang',
+  'अछाम': 'achham',
+  'डोटी': 'doti',
+  'कैलाली': 'kailali',
+  'कञ्चनपुर': 'kanchanpur',
+  'डडेलधुरा': 'dadeldhura',
+  'बैतडी': 'baitadi',
+  'दार्चुला': 'darchula',
+  'दोलखा': 'dolakha',
+};
 
+const NEPALI_TO_ENGLISH_PROVINCE: Record<string, string> = {
+  'कोशी': 'province 1',
+  'मधेश': 'province 2',
+  'बागमती': 'bagmati',
+  'गण्डकी': 'gandaki',
+  'लुम्बिनी': 'lumbini',
+  'कर्णाली': 'province 6',
+  'सुदूरपश्चिम': 'sudurpashchim',
+};
 // Priority order for DV cases
 const SERVICE_PRIORITY = [
   'legal counseling',
@@ -43,9 +128,15 @@ export function findOrganizationsByLocation(
   district: string
 ): Organization[] {
   const all = loadOrganizations();
-  const normProvince = normalize(province);
-  const normDistrict = normalize(district);
-
+  const translatedDistrict = NEPALI_TO_ENGLISH_DISTRICT[district.trim()] ?? district;
+  const translatedProvince = NEPALI_TO_ENGLISH_PROVINCE[province.trim()] ?? province;
+  const normProvince = normalize(translatedProvince);
+  const normDistrict = normalize(translatedDistrict);
+  console.log('Looking for:', { normProvince, normDistrict });
+  console.log('Sample orgs in data:', all.slice(0, 3).map(o => ({
+    district: normalize(o.district),
+    province: normalize(o.province)
+  })));
   const exact = all.filter(
     (o) =>
       normalize(o.district) === normDistrict &&
