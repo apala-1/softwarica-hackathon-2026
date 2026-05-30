@@ -14,13 +14,20 @@
   "type": "commonjs",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "pdfmake": "^0.3.9",
+    "cors": "^2.8.6",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^8.5.2",
+    "helmet": "^8.2.0",
+    "nodemailer": "^8.0.10",
+    "pdfmake": "^0.1.72",
     "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^20.19.41",
+    "@types/nodemailer": "^8.0.0",
+    "@types/pdfmake": "^0.3.3",
     "@types/qrcode": "^1.5.6",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
