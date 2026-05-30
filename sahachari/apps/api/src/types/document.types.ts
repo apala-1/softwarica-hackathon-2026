@@ -51,3 +51,17 @@ export interface GenerateResponse {
   pdfBase64: string;
   sessionId: string;
 }
+
+export interface SendEmailRequest {
+  pdfBase64: string;
+  enhancedStory: string;
+  victimName: string;
+  victimPhone?: string;
+  organization: Organization;
+}
+
+export interface SendEmailResponse {
+  sent: boolean;
+  to: string;
+  message: string;
+}

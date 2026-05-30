@@ -6,6 +6,7 @@ export const validate =
   (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req.body);
     if (!result.success) {
+        console.log("Validation Failed:", result.error.format()); 
       return res.status(400).json({
         error: 'अमान्य डेटा',
         details: result.error.flatten().fieldErrors,

@@ -1,12 +1,11 @@
-import * as PdfPrinter from 'pdfmake';
+const PdfPrinter = require('pdfmake/src/printer');
 import { WizardFormData } from '../types/wizard.types';
 import { buildNibedanTemplate } from '../templates/nibedan.template';
 import { getFontDefinitions } from '../config/fonts';
 
 export async function generateNibedanPdf(wizardData: WizardFormData): Promise<string> {
   const fonts = getFontDefinitions();
-  const printer = new (PdfPrinter as any)(fonts);
-
+  const printer = new PdfPrinter(fonts);
   const docDefinition = buildNibedanTemplate(wizardData);
 
   return new Promise((resolve, reject) => {
